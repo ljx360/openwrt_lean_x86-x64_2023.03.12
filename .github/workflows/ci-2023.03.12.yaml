@@ -47,7 +47,7 @@ env:
   CONFIG_WORKDIR: /workdir
   CONFIG_WORKDIR_OPENWRT: /workdir/openwrt
   CONFIG_FILE_FULL_PATH: /workdir/openwrt/.config
-  DIY_CONFIG_EXT_FILE_FULL_PATH: /workdir/ljx/config_ext
+  DIY_CONFIG_EXT_FILE_FULL_PATH: /workdir/openwrt/ljx_ext.config
   DIY_CONFIG_FILE_FULL_PATH: /workdir/openwrt/.config
   DIY_LJX_APPEND_SH: diy_ljx_append.sh
   DIY_LJX_SH: ljx.sh
@@ -178,14 +178,12 @@ jobs:
 
 
 
-    - name: copy [.config] from path
-      if: (github.event.inputs.config_path != 'false' && github.event.inputs.config_path != '')
+    - name: run shell [ljx_down_config_by_url.sh]
+      if: (github.event.inputs.config_url != '' && github.event.inputs.config_url  != 'false')
       run: |
-        echo ""
-        echo "cp [${{github.event.inputs.config_path}}] to [${DIY_CONFIG_FILE_FULL_PATH}]"
-        cd $GITHUB_WORKSPACE
-        [ ! -e ${DIY_CONFIG_FILE_FULL_PATH} ] && [ -e ${{github.event.inputs.config_path}} ] && cp ${{github.event.inputs.config_path}} ${DIY_CONFIG_FILE_FULL_PATH}
-
+        [ ! -d $CONFIG_WORKDIR_OPENWRT ] && sudo mkdir -p $CONFIG_WORKDIR_OPENWRT;sudo chmod -R 777 $CONFIG_WORKDIR_OPENWRT
+        [ -e $GITHUB_WORKSPACE/$LJX_DOWN_CONFIG_BY_URL_SH ] && sudo chmod 777 $GITHUB_WORKSPACE/$LJX_DOWN_CONFIG_BY_URL_SH;$GITHUB_WORKSPACE/$LJX_DOWN_CONFIG_BY_URL_SH ${{github.event.inputs.config_url}} ${DIY_CONFIG_EXT_FILE_FULL_PATH}
+        
 
     - name: down [.config] from url by shell
       if: (github.event.inputs.config_url != 'false' && github.event.inputs.config_url != '')
