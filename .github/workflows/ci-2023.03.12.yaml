@@ -183,15 +183,16 @@ jobs:
       run: |
         [ ! -d $CONFIG_WORKDIR_OPENWRT ] && sudo mkdir -p $CONFIG_WORKDIR_OPENWRT;sudo chmod -R 777 $CONFIG_WORKDIR_OPENWRT
         [ -e $GITHUB_WORKSPACE/$LJX_DOWN_CONFIG_BY_URL_SH ] && sudo chmod 777 $GITHUB_WORKSPACE/$LJX_DOWN_CONFIG_BY_URL_SH;$GITHUB_WORKSPACE/$LJX_DOWN_CONFIG_BY_URL_SH ${{github.event.inputs.config_url}} ${DIY_CONFIG_EXT_FILE_FULL_PATH}
-        
 
-    - name: down [.config] from url by shell
-      if: (github.event.inputs.config_url != 'false' && github.event.inputs.config_url != '')
+
+    - name: copy [.config] from path
+      if: (github.event.inputs.config_path != 'false' && github.event.inputs.config_path != '')
       run: |
         echo ""
-        echo "down [.config] from url by shell"
-        [ -e $GITHUB_WORKSPACE/$LJX_DOWN_CONFIG_BY_URL_SH ] && chmod +x $GITHUB_WORKSPACE/$LJX_DOWN_CONFIG_BY_URL_SH;$GITHUB_WORKSPACE/$LJX_DOWN_CONFIG_BY_URL_SH ${{github.event.inputs.config_url}} ${DIY_CONFIG_EXT_FILE_FULL_PATH}
-        [ ! -e $GITHUB_WORKSPACE/$LJX_DOWN_CONFIG_BY_URL_SH ] && echo "miss $GITHUB_WORKSPACE/$LJX_DOWN_CONFIG_BY_URL_SH"
+        echo "try cp [${{github.event.inputs.config_path}}] to [${DIY_CONFIG_FILE_FULL_PATH}]"
+        cd $GITHUB_WORKSPACE
+        [ ! -e ${DIY_CONFIG_FILE_FULL_PATH} ] && [ -e ${{github.event.inputs.config_path}} ] && echo "cp file to ${DIY_CONFIG_FILE_FULL_PATH}";cp ${{github.event.inputs.config_path}} ${DIY_CONFIG_FILE_FULL_PATH}
+
 
 
         
