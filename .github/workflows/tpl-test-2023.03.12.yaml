@@ -47,7 +47,7 @@ env:
   CONFIG_WORKDIR: /workdir
   CONFIG_WORKDIR_OPENWRT: /workdir/openwrt
   CONFIG_FILE_FULL_PATH: /workdir/openwrt/.config
-  DIY_CONFIG_EXT_FILE_FULL_PATH: /workdir/ljx/config_ext
+  DIY_CONFIG_EXT_FILE_FULL_PATH: /workdir/openwrt/ljx_url.config
   DIY_CONFIG_FILE_FULL_PATH: /workdir/openwrt/.config
   DIY_LJX_APPEND_SH: diy_ljx_append.sh
   DIY_LJX_SH: ljx.sh
