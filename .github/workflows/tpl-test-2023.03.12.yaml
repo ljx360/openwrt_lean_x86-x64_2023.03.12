@@ -17,7 +17,7 @@ on:
       ssh:
         description: 'SSH connection to Actions'
         required: false
-        default: 'false'
+        default: 'true'
       config_url:
         description: 'input .config url'
         required: false
@@ -67,7 +67,17 @@ jobs:
     - name: Checkout
       uses: actions/checkout@main
       
-    - name: run shell test
+    - name: run shell [${env.ljx_down_config_by_url.sh}]
       run: |
         [ ! -d $CONFIG_WORKDIR_OPENWRT ] && sudo mkdir -p $CONFIG_WORKDIR_OPENWRT;sudo chmod -R 777 $CONFIG_WORKDIR_OPENWRT
         [ -e $GITHUB_WORKSPACE/$LJX_DOWN_CONFIG_BY_URL_SH ] && sudo chmod 777 $GITHUB_WORKSPACE/$LJX_DOWN_CONFIG_BY_URL_SH;$GITHUB_WORKSPACE/$LJX_DOWN_CONFIG_BY_URL_SH
+        
+
+    - name: SSH connection to Actions
+      uses: P3TERX/ssh2actions@v1.0.0
+      if: (github.event.inputs.ssh == 'true' && github.event.inputs.ssh  != 'false') || contains(github.event.action, 'ssh')
+      env:
+        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+
+
