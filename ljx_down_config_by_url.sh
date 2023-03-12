@@ -4,9 +4,9 @@ ARG_COUNT=$#
 
 if [ $ARG_COUNT -eq 2 ];then
 echo ""
-echo "${ARG_COUNT} IS NOT 2"
-exit
-fi
+#echo "THE ARG_COUNT IS NOT 2,IS ${ARG_COUNT}"
+
+
 
 
 CONFIG_FILE=/workdir/openwrt/.config
@@ -38,5 +38,8 @@ else
 
 echo ""
 echo "EXIST $CONFIG_FILE"
+
+fi
+
 
 fi
