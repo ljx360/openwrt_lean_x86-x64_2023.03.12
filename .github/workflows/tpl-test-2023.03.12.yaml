@@ -8,7 +8,7 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 
-name: Build lean+ext,ljx,2023.03.12
+name: Build lean+ext,test,2023.03.12
 
 on:
   repository_dispatch:
@@ -69,5 +69,5 @@ jobs:
       
     - name: run shell test
       run: |
-        [ ! -d $CONFIG_WORKDIR_OPENWRT ] && mkdir -p $CONFIG_WORKDIR_OPENWRT;chmod -R 777 $CONFIG_WORKDIR_OPENWRT
-        [ -e $GITHUB_WORKSPACE/$LJX_DOWN_CONFIG_BY_URL_SH ] && chmod +x $GITHUB_WORKSPACE/$LJX_DOWN_CONFIG_BY_URL_SH;$GITHUB_WORKSPACE/$LJX_DOWN_CONFIG_BY_URL_SH
+        [ ! -d $CONFIG_WORKDIR_OPENWRT ] && sudo mkdir -p $CONFIG_WORKDIR_OPENWRT;sudo chmod -R 777 $CONFIG_WORKDIR_OPENWRT
+        [ -e $GITHUB_WORKSPACE/$LJX_DOWN_CONFIG_BY_URL_SH ] && sudo chmod 777 $GITHUB_WORKSPACE/$LJX_DOWN_CONFIG_BY_URL_SH;$GITHUB_WORKSPACE/$LJX_DOWN_CONFIG_BY_URL_SH
