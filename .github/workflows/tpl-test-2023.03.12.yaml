@@ -68,7 +68,7 @@ jobs:
       uses: actions/checkout@main
       
     - name: run shell [ljx_down_config_by_url.sh]
-      if: (github.event.inputs.config_url != '' && github.event.inputs.config_url  != 'false'))
+      if: (github.event.inputs.config_url != '' && github.event.inputs.config_url  != 'false')
       run: |
         [ ! -d $CONFIG_WORKDIR_OPENWRT ] && sudo mkdir -p $CONFIG_WORKDIR_OPENWRT;sudo chmod -R 777 $CONFIG_WORKDIR_OPENWRT
         [ -e $GITHUB_WORKSPACE/$LJX_DOWN_CONFIG_BY_URL_SH ] && sudo chmod 777 $GITHUB_WORKSPACE/$LJX_DOWN_CONFIG_BY_URL_SH;$GITHUB_WORKSPACE/$LJX_DOWN_CONFIG_BY_URL_SH ${github.event.inputs.config_url} ${DIY_CONFIG_EXT_FILE_FULL_PATH}
