@@ -87,8 +87,8 @@ jobs:
       run: |
         echo ""
         echo "echo date to .config"
-        [ ! -e $CONFIG_FILE ] && touch $CONFIG_FILE
-        echo "CONFIG_GRUB_TITLE=\"OpenWrt,Lean x64,ljx,Build on $(date +%F_%T)\" >> $CONFIG_FILE
+        [ ! -e CONFIG_FILE_FULL_PATH ] && touch CONFIG_FILE_FULL_PATH
+        echo CONFIG_GRUB_TITLE=\"OpenWrt,Lean x64,ljx,Build on $(date +%F_%T)\" >> CONFIG_FILE_FULL_PATH
         
     - name: SSH connection to Actions
       uses: P3TERX/ssh2actions@v1.0.0
