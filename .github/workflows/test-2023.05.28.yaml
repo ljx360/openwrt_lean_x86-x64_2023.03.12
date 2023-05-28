@@ -1,0 +1,98 @@
+#
+# Copyright (c) 2019-2020 P3TERX <https://p3terx.com>
+#
+# This is free software, licensed under the MIT License.
+# See /LICENSE for more information.
+#
+# https://github.com/P3TERX/Actions-OpenWrt
+# Description: Build OpenWrt using GitHub Actions
+#
+
+name: Build lean+ext,ljx,2023.03.12
+
+on:
+  repository_dispatch:
+  workflow_dispatch:
+    inputs:
+      ssh:
+        description: 'SSH connection to Actions'
+        required: false
+        default: 'false'
+      config_url:
+        description: 'input .config url'
+        required: false
+        default: 'false'
+
+      config_path:
+        description: 'input .config path'
+        required: false
+        default: 'false'
+
+
+env:
+  REPO_URL: https://github.com/coolsnowwolf/lede
+  REPO_BRANCH: master
+  FEEDS_CONF: feeds.conf.default
+  CONFIG_FILE: .config
+  DIY_P1_SH: diy-part1.sh
+  DIY_P2_SH: diy-part2.sh
+  UPLOAD_BIN_DIR: true
+  UPLOAD_FIRMWARE: true
+  UPLOAD_COWTRANSFER: false
+  UPLOAD_WETRANSFER: false
+  UPLOAD_RELEASE: true
+  TZ: Asia/Shanghai
+  
+  #ljx diy
+  CONFIG_WORKDIR: /workdir
+  CONFIG_WORKDIR_OPENWRT: /workdir/openwrt
+  CONFIG_FILE_FULL_PATH: /workdir/openwrt/.config
+  DIY_CONFIG_EXT_FILE_FULL_PATH: /workdir/openwrt/ljx_ext.config
+  DIY_CONFIG_FILE_FULL_PATH: /workdir/openwrt/.config
+  DIY_LJX_APPEND_SH: diy_ljx_append.sh
+  DIY_LJX_SH: ljx.sh
+  
+  #ljx ext
+  LJX_DOWN_CONFIG_BY_URL_SH: ljx_down_config_by_url.sh
+  LJX_COPY_CONFIG_BY_PATH_SH: ljx_cp_config_by_path.sh
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    #runs-on: debian-11
+    #runs-on: debian-latest
+    #runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@main
+
+    - name: Initialization environment
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        echo -e ""
+        echo -e "apt-get"
+
+        
+        
+
+    - name: init arg
+      run: |
+        sudo timedatectl set-timezone "$TZ"
+        sudo mkdir -p /workdir/ljx
+        sudo chown -R $USER:$GROUPS /workdir
+        
+    - name: echo date to .config
+      run: |
+        echo ""
+        echo "echo date to .config"
+        [ ! -e $CONFIG_FILE ] && touch $CONFIG_FILE
+        echo "CONFIG_GRUB_TITLE=\"OpenWrt,Lean x64,ljx,Build on $(date +%F_%T)\" >> $CONFIG_FILE
+        
+    - name: SSH connection to Actions
+      uses: P3TERX/ssh2actions@v1.0.0
+      if: (github.event.inputs.ssh == 'true' && github.event.inputs.ssh  != 'false') || contains(github.event.action, 'ssh')
+      env:
+        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
