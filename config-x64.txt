@@ -8,8 +8,9 @@ CONFIG_TARGET_x86_64_DEVICE_generic=y
 CONFIG_GRUB_IMAGES=y
 CONFIG_GRUB_EFI_IMAGES=y
 
+#ljx
 CONFIG_GRUB_TIMEOUT="3"
-CONFIG_GRUB_TITLE="OpenWrt,Lean x64,ljx,2023.05.28"
+CONFIG_GRUB_TITLE="OpenWrt,Lean x64,ljx,2023.05.29"
 
 
 #CONFIG_ISO_IMAGES=y
@@ -56,7 +57,7 @@ luci-app-baidupcs-web=y
 luci-app-minidlna=y
 luci-app-nlbwmon=y
 
-#luci-app-lxc
+luci-app-lxc=y
 luci-app-transmission=y
 luci-app-ttyd=y
 luci-app-vnstat=y
